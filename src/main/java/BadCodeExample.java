@@ -20,8 +20,6 @@ public class BadCodeExample {
         sleep(4000);
         List<WebElement> searchResults = browser.findElements(By.xpath("//div[@class='srg']/div[@class='g']"));
 
-
-
         System.out.println("Results count: " +searchResults.size());
 
         //Дописать проверку что результатов 10 или нет
@@ -33,28 +31,27 @@ public class BadCodeExample {
         }
 
         //Verify that each result contains searchterm, e.g. "Selenium"
-        int a=0;
-        int b;
+        int counter=0;
         for (WebElement searchResult: searchResults){
             String searchResultText = searchResult.getText();
 
            int index = searchResultText.indexOf("elenium");
            if (index >=1){
 
-              a++;
+              counter++;
               System.out.println("Searchterm found");
 
            }
            else{
               System.out.println("Searchterm not found");
-               a=a;
+               counter=counter;
 
            }
 
            //System.out.println(searchResultText);
         }
 
-        if (a == searchResults.size()){
+        if (counter == searchResults.size()){
             System.out.println("Searchterm found (additional global check)");
         }
         else{

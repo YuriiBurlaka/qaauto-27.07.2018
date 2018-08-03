@@ -20,18 +20,46 @@ public class BadCodeExample {
         sleep(4000);
         List<WebElement> searchResults = browser.findElements(By.xpath("//div[@class='srg']/div[@class='g']"));
 
+
+
         System.out.println("Results count: " +searchResults.size());
 
         //Дописать проверку что результатов 10 или нет
-
+        if(searchResults.size() == 10){
+           System.out.println("Results count is correct");
+        }
+        else {
+           System.out.println("Results count is incorrect");
+        }
 
         //Verify that each result contains searchterm, e.g. "Selenium"
+        int a=0;
+        int b;
         for (WebElement searchResult: searchResults){
             String searchResultText = searchResult.getText();
-            System.out.println(searchResultText);
-        }
-        //дописать проверку что есть слово Selenium
 
+           int index = searchResultText.indexOf("elenium");
+           if (index >=1){
+
+              a++;
+              System.out.println("Searchterm found");
+
+           }
+           else{
+              System.out.println("Searchterm not found");
+               a=a;
+
+           }
+
+           //System.out.println(searchResultText);
+        }
+
+        if (a == searchResults.size()){
+            System.out.println("Searchterm found (additional global check)");
+        }
+        else{
+            System.out.println("Searchterm not found (additional global check)");
+        }
 
         sleep(3000);
         browser.close();

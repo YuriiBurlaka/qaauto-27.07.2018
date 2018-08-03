@@ -35,22 +35,19 @@ public class BadCodeExample {
         for (WebElement searchResult: searchResults){
             String searchResultText = searchResult.getText();
 
-           int index = searchResultText.indexOf("elenium");
-           if (index >=1){
-
+            int index = searchResultText.indexOf("elenium");
+            if (index >=1){
               counter++;
               System.out.println("Searchterm found");
-
-           }
-           else{
+            }
+            else{
               System.out.println("Searchterm not found");
-               counter=counter;
-
-           }
+            }
 
            //System.out.println(searchResultText);
         }
 
+        //Additional check in 1 line instead of 10
         if (counter == searchResults.size()){
             System.out.println("Searchterm found (additional global check)");
         }

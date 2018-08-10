@@ -1,19 +1,13 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static java.lang.Thread.sleep;
-
 
 public class LinkedInLogInTest {
     WebDriver browser;
+    LinkedInLoginPage linkedInLoginPage;
 
     @BeforeMethod
     public void beforeMethod(){
@@ -21,6 +15,8 @@ public class LinkedInLogInTest {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\yurii.burlaka.ext\\IdeaProjects\\qaauto-27.07.2018\\chromedriver.exe");
         browser.manage().window().maximize();
         browser.get("https://www.linkedin.com/");
+        linkedInLoginPage = new LinkedInLoginPage(browser);
+
     }
 
     @AfterMethod
@@ -29,49 +25,28 @@ public class LinkedInLogInTest {
     }
 
     @Test
-    public void successfulLoginTest() throws InterruptedException {
+    public void successfulLoginTest(){
 
         //LogIn
-        LinkedInLoginPage linkedInLoginPage = new LinkedInLoginPage(browser);
         linkedInLoginPage.Login("mrentertheusername@gmail.com","a14401440");
 
-        //Wait
-        Wait<WebDriver> wait = new WebDriverWait(browser,7).withMessage("Element was not found");
-        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"nav-settings__dropdown-trigger\"]/div/span[1]")));
-
-        //Validations:
-        //check that specific element is available
+        //Validation
         LinkedInHomePage linkedInHomePage = new LinkedInHomePage(browser);
-        Assert.assertTrue(linkedInHomePage.isNavigationItemDisplayed(), "Navigation item is not displayed.");
-
-        //compare page title
-        String title = browser.getTitle();
-        Assert.assertEquals(title,"LinkedIn","Recived result is not correct");
-
-        //compare URL
-        String pageURL = browser.getCurrentUrl();
-        Assert.assertEquals(pageURL, "https://www.linkedin.com/feed/","Recived URL is not correct");
+        Assert.assertTrue(linkedInHomePage.isLoaded(), "Home page is not loaded");
     }
 
     @Test
-    public void negativeLoginTest() throws InterruptedException {
+    public void negativeLoginTest(){
 
         //Enter login
-        WebElement loginField = browser.findElement(By.xpath("//*[@id=\"login-email\" and @class = \"login-email\"]"));
-        loginField.sendKeys("assdfs");
-        //Enter password
-        WebElement passwordField = browser.findElement(By.xpath("//*[@id=\"login-password\"]"));
-        passwordField.sendKeys("dddaaa");
-        //Click "LogIn"
-        WebElement signInButton = browser.findElement(By.xpath("//*[@id=\"login-submit\"]"));
-        signInButton.click();
+        linkedInLoginPage.Login("assdfs","dddaaa");
+
         //Validation
-        sleep(3000);
-        WebElement errorMessage = browser.findElement(By.xpath("//*[@role = 'alert']"));
-        Assert.assertEquals(errorMessage.getText(), "При заполнении формы были допущены ошибки. Проверьте и исправьте отмеченные поля.", "Alert");
-
-
-
+        LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
+        Assert.assertEquals(linkedInLoginSubmitPage.getAlertBoxText(), "При заполнении формы были допущены ошибки. Проверьте и исправьте отмеченные поля.", "Alert");
     }
 }
 
+//HomeWork
+//CopyPasteAndCreateManyNegativeTests
+//Выделение классов эквивалентности

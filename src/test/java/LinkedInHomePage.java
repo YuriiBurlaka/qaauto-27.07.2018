@@ -3,8 +3,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class LinkedInHomePage {
-    WebDriver browser;
-    WebElement profileMenu;
+    private WebDriver browser;
+    private WebElement profileMenu;
 
 
     public LinkedInHomePage(WebDriver browser){
@@ -12,13 +12,21 @@ public class LinkedInHomePage {
         initElements();
     }
 
-    public void initElements(){
+    private void initElements(){
         profileMenu = browser.findElement(By.xpath("//*[@id=\"nav-settings__dropdown-trigger\"]/div/span[1]"));
     }
 
-
-    public boolean isNavigationItemDisplayed(){
-    return (profileMenu.getText().equals("Профиль"));
+    public String getCurrentPageTitle(){
+      return browser.getTitle();
     }
 
+    public String getCurrentUrl(){
+        return browser.getCurrentUrl();
     }
+
+    public boolean isLoaded() {
+        return profileMenu.getText().equals("Профиль")
+                && getCurrentPageTitle().contains("LinkedIn")
+                && getCurrentUrl().contains("/feed/");
+    }
+}

@@ -39,7 +39,6 @@ public class IRSSolution {
             //WebElement searchOkButton
             WebElement search = browser.switchTo().frame("B").findElement(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr[8]/td[2]/form/input"));
 
-            //WebElement search = fr.findElement(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr[10]/td[2]/table/tbody/tr[2]/td[2]/form/input"));
             search.click();
             sleep(2000);
 

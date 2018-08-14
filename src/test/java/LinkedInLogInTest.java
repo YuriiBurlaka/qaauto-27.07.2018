@@ -3,11 +3,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class LinkedInLogInTest {
     WebDriver browser;
     LinkedInLoginPage linkedInLoginPage;
+
 
     @BeforeMethod
     public void beforeMethod(){
@@ -24,11 +26,23 @@ public class LinkedInLogInTest {
         browser.close();
     }
 
-    @Test
-    public void successfulLoginTest(){
+
+    @DataProvider
+    public Object[][] validFieldsCombination() {
+        return new Object[][]{
+                { "mrentertheusername@gmail.com", "a14401440" },
+                { "MREntertheusernNAME@gmail.com", "a14401440" },
+        };
+    }
+
+
+
+
+    @Test (dataProvider = "validFieldsCombination")
+    public void successfulLoginTest(String userEmail, String userPass){
 
         //LogIn
-        linkedInLoginPage.Login("mrentertheusername@gmail.com","a14401440");
+        linkedInLoginPage.Login(userEmail, userPass);
 
         //Validation
         LinkedInHomePage linkedInHomePage = new LinkedInHomePage(browser);
@@ -36,7 +50,7 @@ public class LinkedInLogInTest {
     }
 
     @Test
-    public void negativeLoginTest(){
+    public void negativeLoginTestWrongDataEntered(){
 
         //Enter login
         linkedInLoginPage.Login("assdfs","dddaaa");
@@ -45,8 +59,54 @@ public class LinkedInLogInTest {
         LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
         Assert.assertEquals(linkedInLoginSubmitPage.getAlertBoxText(), "При заполнении формы были допущены ошибки. Проверьте и исправьте отмеченные поля.", "Alert");
     }
+
+    @Test
+    public void negativeLoginTestEmptyLoginField(){
+
+        //Enter login
+        linkedInLoginPage.Login("","dddaaa");
+
+        //Validation
+        Assert.assertTrue(linkedInLoginPage.isLoaded(), "Incorrect browser response to an empty field");
+    }
+
+    @Test
+    public void negativeLoginTestEmptyPasswordField(){
+
+        //Enter login
+        linkedInLoginPage.Login("dfdf@assdfs.com","");
+
+        //Validation
+        Assert.assertTrue(linkedInLoginPage.isLoaded(), "Incorrect browser response to an empty field");
+    }
+
+    @Test
+    public void validateShortUserEmailAndPassword(){
+        linkedInLoginPage.Login("a","a");
+        LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
+
+        Assert.assertTrue(linkedInLoginSubmitPage.isLoaded(), "User is not on loginSubmit page");
+        Assert.assertEquals(linkedInLoginSubmitPage.getUserEmailValidationText(),"Слишком короткий текст (минимальная длина – 3 симв., введено – 1 симв.).","userEmail field has wrong validation message");
+        Assert.assertEquals(linkedInLoginSubmitPage.getUserPasswordValidationText(),"Пароль должен содержать не менее 6 символов.","userPass field has wrong validation message");
+    }
+
+    @DataProvider
+    public Object[][] emptyFieldsCombination() {
+        return new Object[][]{
+                { "", "" },
+                { "", "P@ssword123" },
+                { "someone@domain.com", "" }
+        };
+    }
+
+    @Test(dataProvider = "emptyFieldsCombination")
+    public void negativeLoginTestEmptyFields(String userEmail, String userPass){
+
+        //Enter login
+        linkedInLoginPage.Login(userEmail, userPass);
+
+        //Validation
+        Assert.assertTrue(linkedInLoginPage.isLoaded(), "User is not on login page");
+    }
 }
 
-//HomeWork
-//CopyPasteAndCreateManyNegativeTests
-//Выделение классов эквивалентности

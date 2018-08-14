@@ -34,5 +34,20 @@ public class LinkedInLoginPage {
             e.printStackTrace();
         }
     }
+
+    public String getCurrentPageTitle(){
+        return browser.getTitle();
+    }
+
+    public String getCurrentUrl(){
+
+        return browser.getCurrentUrl();
+    }
+
+    public boolean isLoaded() {
+        return
+                getCurrentPageTitle().contains("LinkedIn");
+
+    }
 }
 

@@ -87,7 +87,7 @@ public class LinkedInLogInTest {
 
 
     @DataProvider
-    public Object[][] shortFieldsCombination() {
+    public Object[][] userpassAndLoginFieldsCombination() {
         return new Object[][]{
                 { "a", "a", "Слишком короткий текст (минимальная длина – 3 симв., введено – 1 симв.).","Пароль должен содержать не менее 6 символов."},
                 { "aa", "a", "Слишком короткий текст (минимальная длина – 3 симв., введено – 2 симв.).","Пароль должен содержать не менее 6 символов."},
@@ -102,8 +102,8 @@ public class LinkedInLogInTest {
         };
     }
 
-    @Test(dataProvider = "shortFieldsCombination")
-    public void validateShortUserEmailAndPassword(String userEmail, String userPass, String requiredLoginMessage, String requiredPassMessage){
+    @Test(dataProvider = "userpassAndLoginFieldsCombination")
+    public void validateCombinationsForUserEmailAndPassword(String userEmail, String userPass, String requiredLoginMessage, String requiredPassMessage){
         linkedInLoginPage.Login(userEmail, userPass);
         LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
 

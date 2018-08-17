@@ -47,6 +47,10 @@ public class LinkedInLogInTest {
         //Validation
         LinkedInHomePage linkedInHomePage = new LinkedInHomePage(browser);
         Assert.assertTrue(linkedInHomePage.isLoaded(), "Home page is not loaded");
+
+
+
+
     }
 
     @Test
@@ -80,15 +84,35 @@ public class LinkedInLogInTest {
         Assert.assertTrue(linkedInLoginPage.isLoaded(), "Incorrect browser response to an empty field");
     }
 
-    @Test
-    public void validateShortUserEmailAndPassword(){
-        linkedInLoginPage.Login("a","a");
+
+
+    @DataProvider
+    public Object[][] shortFieldsCombination() {
+        return new Object[][]{
+                { "a", "a", "Слишком короткий текст (минимальная длина – 3 симв., введено – 1 симв.).","Пароль должен содержать не менее 6 символов."},
+                { "aa", "a", "Слишком короткий текст (минимальная длина – 3 симв., введено – 2 симв.).","Пароль должен содержать не менее 6 символов."},
+                { "aaa", "a", "Укажите действительный адрес эл. почты.", "Пароль должен содержать не менее 6 символов."},
+                { "@com", "aaaaaa", "Укажите действительный адрес эл. почты.", ""},
+                { "+", "aaaaaa", "Этот адрес эл. почты не зарегистрирован в LinkedIn. Повторите попытку.", ""},
+                { "1", "aaaaaa", "Обязательно включите в номер значок «+» и код своей страны.", ""},
+                { "+1", "1", "", "Пароль должен содержать не менее 6 символов."},
+                { "ertertetertetertertertetetertetetetetetertetetetettertretertertertretertertertertertertrtertertrtetetertetettetertertetetertertef", "111111", "Слишком длинный текст: максимальная длина – 128 симв., введено 129 симв.", ""},
+                { "ertertetertetertertertetetertetetetetetertetetetettertretertertertretertertertertertertrtertertrtetetertetettetertertetetertertef", "1", "Слишком длинный текст: максимальная длина – 128 симв., введено 129 симв.", "Пароль должен содержать не менее 6 символов."},
+                { "+1", "ertertetertetertertertetetertetetetetetertetetetettertretertertertretertertertertertertrtertertrteteertertetertetertertertetetertetetetetetertetetetettertretertertertretertertertertertertrtertertrteteertertetertetertertertetetertetetetetetertetetetettertretertertertretertertertertertertrtertertrteteertertetertetertertertetetertetetetetetertetetetettertretertertertretertertertertertertrtertertrteted", "", "Пароль должен содержать не более 400 символов."},
+        };
+    }
+
+    @Test(dataProvider = "shortFieldsCombination")
+    public void validateShortUserEmailAndPassword(String userEmail, String userPass, String requiredLoginMessage, String requiredPassMessage){
+        linkedInLoginPage.Login(userEmail, userPass);
         LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
 
         Assert.assertTrue(linkedInLoginSubmitPage.isLoaded(), "User is not on loginSubmit page");
-        Assert.assertEquals(linkedInLoginSubmitPage.getUserEmailValidationText(),"Слишком короткий текст (минимальная длина – 3 симв., введено – 1 симв.).","userEmail field has wrong validation message");
-        Assert.assertEquals(linkedInLoginSubmitPage.getUserPasswordValidationText(),"Пароль должен содержать не менее 6 символов.","userPass field has wrong validation message");
+        Assert.assertEquals(linkedInLoginSubmitPage.getUserEmailValidationText(),requiredLoginMessage,"userEmail field has wrong validation message");
+        Assert.assertEquals(linkedInLoginSubmitPage.getUserPasswordValidationText(),requiredPassMessage,"userPass field has wrong validation message");
     }
+
+
 
     @DataProvider
     public Object[][] emptyFieldsCombination() {

@@ -15,14 +15,14 @@ public class LinkedInLogInTest {
     public void beforeMethod(){
         browser = new ChromeDriver();
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\yurii.burlaka.ext\\IdeaProjects\\qaauto-27.07.2018\\chromedriver.exe");
-        browser.manage().window().maximize();
+        //browser.manage().window().maximize();
         browser.get("https://www.linkedin.com/");
         linkedInLoginPage = new LinkedInLoginPage(browser);
-
     }
 
     @AfterMethod
     public void afterMethod(){
+
         browser.close();
     }
 
@@ -31,21 +31,17 @@ public class LinkedInLogInTest {
     public Object[][] validFieldsCombination() {
         return new Object[][]{
                 { "mrentertheusername@gmail.com", "a14401440" },
-                { "MREntertheusernNAME@gmail.com", "a14401440" },
+                { "MREntertheuserNAME@gmail.com", "a14401440" }
         };
     }
-
-
-
 
     @Test (dataProvider = "validFieldsCombination")
     public void successfulLoginTest(String userEmail, String userPass){
 
         //LogIn
-        linkedInLoginPage.Login(userEmail, userPass);
+        LinkedInHomePage linkedInHomePage = linkedInLoginPage.loginReturnHomePage(userEmail, userPass);
 
         //Validation
-        LinkedInHomePage linkedInHomePage = new LinkedInHomePage(browser);
         Assert.assertTrue(linkedInHomePage.isLoaded(), "Home page is not loaded");
 
 
@@ -57,10 +53,10 @@ public class LinkedInLogInTest {
     public void negativeLoginTestWrongDataEntered(){
 
         //Enter login
-        linkedInLoginPage.Login("assdfs","dddaaa");
+        LinkedInLoginSubmitPage linkedInLoginSubmitPage = linkedInLoginPage.loginReturnSubmitPage("assdfs","dddaaa");
 
         //Validation
-        LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
+        //LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
         Assert.assertEquals(linkedInLoginSubmitPage.getAlertBoxText(), "При заполнении формы были допущены ошибки. Проверьте и исправьте отмеченные поля.", "Alert");
     }
 
@@ -68,7 +64,7 @@ public class LinkedInLogInTest {
     public void negativeLoginTestEmptyLoginField(){
 
         //Enter login
-        linkedInLoginPage.Login("","dddaaa");
+        linkedInLoginPage.loginReturnLoginPage("","dddaaa");
 
         //Validation
         Assert.assertTrue(linkedInLoginPage.isLoaded(), "Incorrect browser response to an empty field");
@@ -78,7 +74,7 @@ public class LinkedInLogInTest {
     public void negativeLoginTestEmptyPasswordField(){
 
         //Enter login
-        linkedInLoginPage.Login("dfdf@assdfs.com","");
+        linkedInLoginPage.loginReturnLoginPage("dfdf@assdfs.com","");
 
         //Validation
         Assert.assertTrue(linkedInLoginPage.isLoaded(), "Incorrect browser response to an empty field");
@@ -104,8 +100,8 @@ public class LinkedInLogInTest {
 
     @Test(dataProvider = "userpassAndLoginFieldsCombination")
     public void validateCombinationsForUserEmailAndPassword(String userEmail, String userPass, String requiredLoginMessage, String requiredPassMessage){
-        linkedInLoginPage.Login(userEmail, userPass);
-        LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
+        LinkedInLoginSubmitPage linkedInLoginSubmitPage = linkedInLoginPage.loginReturnSubmitPage(userEmail, userPass);
+        //LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
 
         Assert.assertTrue(linkedInLoginSubmitPage.isLoaded(), "User is not on loginSubmit page");
         Assert.assertEquals(linkedInLoginSubmitPage.getUserEmailValidationText(),requiredLoginMessage,"userEmail field has wrong validation message");
@@ -127,7 +123,7 @@ public class LinkedInLogInTest {
     public void negativeLoginTestEmptyFields(String userEmail, String userPass){
 
         //Enter login
-        linkedInLoginPage.Login(userEmail, userPass);
+        linkedInLoginPage.loginReturnLoginPage(userEmail, userPass);
 
         //Validation
         Assert.assertTrue(linkedInLoginPage.isLoaded(), "User is not on login page");

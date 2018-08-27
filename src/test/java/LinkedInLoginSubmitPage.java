@@ -1,26 +1,24 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 
+public class LinkedInLoginSubmitPage extends BasePage{
 
-public class LinkedInLoginSubmitPage {
-
-    private WebDriver browser;
+    @FindBy(xpath = "//*[@role = 'alert']")
     private WebElement errorMessage;
+
+    @FindBy(xpath = "//span[@id='session_key-login-error']")
     private WebElement userEmailValidationText;
+
+    @FindBy(xpath = "//span[@id='session_password-login-error']")
     private WebElement usePassValidationText;
 
     public LinkedInLoginSubmitPage(WebDriver browser) {
         this.browser = browser;
-        initElements();
-    }
+        PageFactory.initElements(browser, this);    }
 
-    public void initElements() {
-        errorMessage = browser.findElement(By.xpath("//*[@role = 'alert']"));
-        userEmailValidationText = browser.findElement(By.xpath("//span[@id='session_key-login-error']"));
-        usePassValidationText = browser.findElement(By.xpath("//span[@id='session_password-login-error']"));
-    }
 
     public String getAlertBoxText() {
         return errorMessage.getText();
@@ -30,15 +28,6 @@ public class LinkedInLoginSubmitPage {
         return errorMessage.isDisplayed()
                 && getCurrentPageTitle().contains("Войти в LinkedIn")
                 && getCurrentUrl().contains("/uas/login-submit");
-    }
-
-    public String getCurrentPageTitle() {
-        return browser.getTitle();
-    }
-
-    public String getCurrentUrl() {
-
-        return browser.getCurrentUrl();
     }
 
     public String getUserEmailValidationText() {

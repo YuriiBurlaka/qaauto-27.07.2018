@@ -26,8 +26,7 @@ public class LinkedInForgotPasswordTest {
     }
     @AfterMethod
     public void afterMethod(){
-
-        //browser.close();
+        browser.close();
     }
 
     @Test

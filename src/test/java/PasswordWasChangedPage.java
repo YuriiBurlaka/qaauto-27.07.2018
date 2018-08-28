@@ -8,10 +8,6 @@ public class PasswordWasChangedPage extends BasePage{
         PageFactory.initElements(browser, this);
     }
 
-    public PasswordWasChangedPage(){
-
-    }
-
     public boolean isLoaded() {
         return getCurrentPageTitle().contains("Вы изменили свой пароль.") && getCurrentUrl().contains("checkpoint/rp/password-reset-submit");
     }

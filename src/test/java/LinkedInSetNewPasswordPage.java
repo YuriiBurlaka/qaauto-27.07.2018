@@ -4,7 +4,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 
-public class SetNewPasswordPage extends BasePage{
+public class LinkedInSetNewPasswordPage extends BasePage{
 
     @FindBy(xpath = "//input[@type='password' and @id='newPassword']")
     private WebElement newPasswordField;
@@ -15,12 +15,12 @@ public class SetNewPasswordPage extends BasePage{
     @FindBy(xpath = "//button")
     private WebElement confirmButton;
 
-    public SetNewPasswordPage(WebDriver browser) {
+    public LinkedInSetNewPasswordPage(WebDriver browser) {
         this.browser = browser;
         PageFactory.initElements(browser, this);
     }
 
-    public PasswordWasChangedPage setNewPassword(String newPassword){
+    public LinkedInSuccessfullResetPasswordPage confirmResetPassword(String newPassword){
 
         newPasswordField.click();
         newPasswordField.sendKeys(newPassword);

@@ -1,4 +1,3 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -71,7 +70,7 @@ public class LinkedInLoginPage extends BasePage{
                 getCurrentPageTitle().contains("LinkedIn");
     }
 
-    public ForgotPasswordPage loginPageReturnsForgotPasswordPage (){
+    public LinkedInRequestPasswordResetPage clickOnForgotPasswordLink(){
         forgotPasswordLink.click();
         //Wait
         try {
@@ -79,6 +78,6 @@ public class LinkedInLoginPage extends BasePage{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return new ForgotPasswordPage(browser);
+        return new LinkedInRequestPasswordResetPage(browser);
     }
 }

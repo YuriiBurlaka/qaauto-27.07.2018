@@ -15,6 +15,7 @@ public class LinkedInForgotPasswordTest {
     LinkedInLoginPage linkedInLoginPage;
     String userEmail;
     String newPassword;
+    String emailPassword;
 
     @BeforeMethod
     public void beforeMethod(){
@@ -34,10 +35,11 @@ public class LinkedInForgotPasswordTest {
         String[] credentials = readFileWithCredentials("LinkedInMail.txt");
         userEmail = credentials[0];
         newPassword = credentials[1];
+        emailPassword = credentials[2];
         Assert.assertTrue(linkedInLoginPage.isLoaded(), "LoginPage is not loaded");
 
         //ForgotPassword click
-        ForgotPasswordPage forgotPasswordPage = linkedInLoginPage.loginPageReturnsForgotPasswordPage();
+        LinkedInRequestPasswordResetPage linkedInRequestPasswordResetPage = linkedInLoginPage.clickOnForgotPasswordLink();
 
         try {
             sleep(1000);
@@ -46,8 +48,17 @@ public class LinkedInForgotPasswordTest {
         }
 
         //Validation
-        Assert.assertTrue(forgotPasswordPage.isLoaded(), "ForgotPassword page is not loaded");
-        CheckPointPage checkPointPage = forgotPasswordPage.requestForPasswordReset(userEmail);
+        Assert.assertTrue(linkedInRequestPasswordResetPage.isLoaded(), "ForgotPassword page is not loaded");
+        LinkedInPasswordResetSubmitPage linkedInPasswordResetSubmitPage = linkedInRequestPasswordResetPage.findAccount(userEmail);
+
+        try {
+            sleep(120000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //Validation
+        Assert.assertTrue(linkedInPasswordResetSubmitPage.isLoaded(), "LinkedInPasswordResetSubmitPage page is not loaded");
 
         try {
             sleep(1000);
@@ -55,17 +66,10 @@ public class LinkedInForgotPasswordTest {
             e.printStackTrace();
         }
 
-        //Validation
-        Assert.assertTrue(checkPointPage.isLoaded(), "CheckPointPage page is not loaded");
+        LinkedInSetNewPasswordPage linkedInsetNewPasswordPage = linkedInPasswordResetSubmitPage.navigateToLinkFromEmail();
 
-        try {
-            sleep(90000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        SetNewPasswordPage setNewPasswordPage = new SetNewPasswordPage(browser);
-        PasswordWasChangedPage paswordWasChangedPage = setNewPasswordPage.setNewPassword(newPassword);
+        LinkedInSuccessfullResetPasswordPage linkedInSuccessfullResetPasswordPage = linkedInsetNewPasswordPage.confirmResetPassword(newPassword);
 
     }
 

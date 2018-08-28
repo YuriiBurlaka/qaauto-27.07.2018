@@ -1,9 +1,9 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
-public class PasswordWasChangedPage extends BasePage{
+public class LinkedInSuccessfullResetPasswordPage extends BasePage{
 
-    public PasswordWasChangedPage(WebDriver browser) {
+    public LinkedInSuccessfullResetPasswordPage(WebDriver browser) {
         this.browser = browser;
         PageFactory.initElements(browser, this);
     }

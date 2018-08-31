@@ -26,22 +26,22 @@ public class GMailService {
      * @param args - dummy args for main()
      */
     public static void main(String[] args) {
-        String messageSubject = "Lesson 10";
-        String messageTo = "postoltest@gmail.com";
-        String messageFrom = "mykola.gladchenko@gmail.com";
+        //String messageSubject = "Lesson 10";
+        //String messageTo = "postoltest@gmail.com";
+        //String messageFrom = "mykola.gladchenko@gmail.com";
 
-        GMailService gMailService = new GMailService();
-        gMailService.connect();
-        String message = gMailService.waitMessage(messageSubject, messageTo, messageFrom, 60);
-        System.out.println("Content: " + message);
+        //GMailService gMailService = new GMailService();
+        //gMailService.connect();
+        //String message = gMailService.waitMessage(messageSubject, messageTo, messageFrom, 60);
+        //System.out.println("Content: " + message);
     }
 
     /**
      * Default util.GMailService constructor with predefined user/pass credentials
      */
     public GMailService(){
-        this.user = "postoltest@gmail.com";
-        this.pass = "q12345678T";
+        this.user = "mrentertheusername@gmail.com";
+        this.pass = "a14401440";
     }
 
     /**

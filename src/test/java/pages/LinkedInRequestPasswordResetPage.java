@@ -1,8 +1,11 @@
+package pages;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import util.GMailService;
+
+import static java.lang.Thread.sleep;
 
 public class LinkedInRequestPasswordResetPage extends BasePage{
 
@@ -20,17 +23,22 @@ public class LinkedInRequestPasswordResetPage extends BasePage{
 
 
     public LinkedInPasswordResetSubmitPage findAccount(String userEmail){
-        gMailService = new GMailService("mrentertheusername@gmail.com","a14401440");
         gMailService.connect();
         loginField.sendKeys(userEmail);
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         confirmButton.click();
         return new LinkedInPasswordResetSubmitPage(browser);
+
     }
 
 
     public boolean isLoaded() {
-        return getCurrentPageTitle().contains("Изменить пароль | LinkedIn") && getCurrentUrl().contains("uas/request-password-reset");
+        return getCurrentPageTitle().contains("") && getCurrentUrl().contains("request-password-reset");
     }
-
 
 }

@@ -1,3 +1,4 @@
+package tests;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -5,7 +6,9 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
+import pages.LinkedInHomePage;
+import pages.LinkedInLoginPage;
+import pages.LinkedInSearchPage;
 import static java.lang.Thread.sleep;
 
 

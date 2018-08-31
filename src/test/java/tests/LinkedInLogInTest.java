@@ -1,3 +1,4 @@
+package tests;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -5,6 +6,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import pages.LinkedInHomePage;
+import pages.LinkedInLoginPage;
+import pages.LinkedInLoginSubmitPage;
 
 public class LinkedInLogInTest {
     WebDriver browser;
@@ -56,7 +60,7 @@ public class LinkedInLogInTest {
         LinkedInLoginSubmitPage linkedInLoginSubmitPage = linkedInLoginPage.loginReturnSubmitPage("assdfs","dddaaa");
 
         //Validation
-        //LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
+        //pages.LinkedInLoginSubmitPage linkedInLoginSubmitPage = new pages.LinkedInLoginSubmitPage(browser);
         Assert.assertEquals(linkedInLoginSubmitPage.getAlertBoxText(), "При заполнении формы были допущены ошибки. Проверьте и исправьте отмеченные поля.", "Alert");
     }
 
@@ -101,7 +105,7 @@ public class LinkedInLogInTest {
     @Test(dataProvider = "userpassAndLoginFieldsCombination")
     public void validateCombinationsForUserEmailAndPassword(String userEmail, String userPass, String requiredLoginMessage, String requiredPassMessage){
         LinkedInLoginSubmitPage linkedInLoginSubmitPage = linkedInLoginPage.loginReturnSubmitPage(userEmail, userPass);
-        //LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
+        //pages.LinkedInLoginSubmitPage linkedInLoginSubmitPage = new pages.LinkedInLoginSubmitPage(browser);
 
         Assert.assertTrue(linkedInLoginSubmitPage.isLoaded(), "User is not on loginSubmit page");
         Assert.assertEquals(linkedInLoginSubmitPage.getUserEmailValidationText(),requiredLoginMessage,"userEmail field has wrong validation message");

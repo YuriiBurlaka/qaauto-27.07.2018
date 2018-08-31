@@ -1,3 +1,5 @@
+package pages;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,7 +19,10 @@ public class LinkedInLoginSubmitPage extends BasePage{
 
     public LinkedInLoginSubmitPage(WebDriver browser) {
         this.browser = browser;
-        PageFactory.initElements(browser, this);    }
+        PageFactory.initElements(browser, this);
+        //wait for element
+        waitUntilElementIsVisible(errorMessage, 10);
+    }
 
 
     public String getAlertBoxText() {

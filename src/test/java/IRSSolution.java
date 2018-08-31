@@ -63,7 +63,6 @@ public class IRSSolution {
 
             //+Wait instead of Sleep
             WebDriverWait wait = new WebDriverWait(browser, 10);
-
             WebElement loginField = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"username\"]")));
 
             loginField.sendKeys(username);

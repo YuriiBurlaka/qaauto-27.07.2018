@@ -1,9 +1,14 @@
+package pages;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import static java.lang.Thread.sleep;
 
+/**
+ * Page object class for LinkedInLoginPage
+ */
 public class LinkedInLoginPage extends BasePage{
 
     @FindBy(xpath = "//*[@id=\"login-email\" and @class = \"login-email\"]")
@@ -19,7 +24,10 @@ public class LinkedInLoginPage extends BasePage{
     private WebElement forgotPasswordLink;
 
 
-
+    /**
+     * Constructor of LinkedInLoginPage class.
+     * @param browser - WebDriver instance from test.
+     */
     public LinkedInLoginPage(WebDriver browser) {
         this.browser = browser;
         PageFactory.initElements(browser, this);
@@ -30,12 +38,6 @@ public class LinkedInLoginPage extends BasePage{
         loginField.sendKeys(username);
         passwordField.sendKeys(userpass);
         signInButton.click();
-        //Wait
-        try {
-            sleep (3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         return new LinkedInLoginSubmitPage(browser);
     }
 

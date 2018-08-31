@@ -1,16 +1,19 @@
+package tests;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pages.*;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
 
 public class LinkedInForgotPasswordTest {
-
     WebDriver browser;
     LinkedInLoginPage linkedInLoginPage;
     String userEmail;
@@ -27,7 +30,7 @@ public class LinkedInForgotPasswordTest {
     }
     @AfterMethod
     public void afterMethod(){
-        browser.close();
+        //browser.close();
     }
 
     @Test
@@ -49,16 +52,8 @@ public class LinkedInForgotPasswordTest {
 
         //Validation
         Assert.assertTrue(linkedInRequestPasswordResetPage.isLoaded(), "ForgotPassword page is not loaded");
+
         LinkedInPasswordResetSubmitPage linkedInPasswordResetSubmitPage = linkedInRequestPasswordResetPage.findAccount(userEmail);
-
-        try {
-            sleep(120000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        //Validation
-        Assert.assertTrue(linkedInPasswordResetSubmitPage.isLoaded(), "LinkedInPasswordResetSubmitPage page is not loaded");
 
         try {
             sleep(1000);
@@ -66,8 +61,10 @@ public class LinkedInForgotPasswordTest {
             e.printStackTrace();
         }
 
-        LinkedInSetNewPasswordPage linkedInsetNewPasswordPage = linkedInPasswordResetSubmitPage.navigateToLinkFromEmail();
+        //Validation
+        Assert.assertTrue(linkedInPasswordResetSubmitPage.isLoaded(), "pages.LinkedInPasswordResetSubmitPage page is not loaded");
 
+        LinkedInSetNewPasswordPage linkedInsetNewPasswordPage = linkedInPasswordResetSubmitPage.navigateToLinkFromEmail();
 
         LinkedInSuccessfullResetPasswordPage linkedInSuccessfullResetPasswordPage = linkedInsetNewPasswordPage.confirmResetPassword(newPassword);
 

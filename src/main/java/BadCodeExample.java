@@ -1,4 +1,3 @@
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -22,7 +21,7 @@ public class BadCodeExample {
 
         System.out.println("Results count: " +searchResults.size());
 
-        //Дописать проверку что результатов 10 или нет
+        //Проверка что результатов 10 или нет
         if(searchResults.size() == 10){
            System.out.println("Results count is correct");
         }
@@ -43,11 +42,7 @@ public class BadCodeExample {
             else{
               System.out.println("Searchterm not found");
             }
-
-           //System.out.println(searchResultText);
         }
-
-        //Additional check in 1 line instead of 10
         if (counter == searchResults.size()){
             System.out.println("Searchterm found (additional global check)");
         }

@@ -1,0 +1,48 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="LoginTestSuite" verbose="1" >
+
+    <test name="LoginTestsChromeBrowserUA" >
+        <parameter name="browserName" value="Chrome"/>
+        <parameter name="envURL" value="UA"/>
+        <classes>
+            <class name="tests.LinkedInLogInTest" />
+        </classes>
+    </test>
+    <test name="LoginTestsFirefoxBrowserUA" >
+        <parameter name="browserName" value="Firefox"/>
+        <parameter name="envURL" value="UA"/>
+        <classes>
+            <class name="tests.LinkedInLogInTest" />
+        </classes>
+    </test>
+    <test name="LoginTestsChromeBrowserRU" >
+        <parameter name="browserName" value="Chrome"/>
+        <parameter name="envURL" value="RU"/>
+        <classes>
+            <class name="tests.LinkedInLogInTest" />
+        </classes>
+    </test>
+    <test name="LoginTestsFirefoxBrowserRU" >
+        <parameter name="browserName" value="Firefox"/>
+        <parameter name="envURL" value="RU"/>
+        <classes>
+            <class name="tests.LinkedInLogInTest" />
+        </classes>
+    </test>
+    <test name="LoginTestsChromeBrowserDE" >
+        <parameter name="browserName" value="Chrome"/>
+        <parameter name="envURL" value="DE"/>
+        <classes>
+            <class name="tests.LinkedInLogInTest" />
+        </classes>
+    </test>
+    <test name="LoginTestsFirefoxBrowserDE" >
+        <parameter name="browserName" value="Firefox"/>
+        <parameter name="envURL" value="DE"/>
+        <classes>
+            <class name="tests.LinkedInLogInTest" />
+        </classes>
+    </test>
+</suite>
+

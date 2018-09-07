@@ -1,23 +1,16 @@
 package tests;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.LinkedInHomePage;
-import pages.LinkedInLoginPage;
 import pages.LinkedInSearchPage;
+import java.util.List;
 import static java.lang.Thread.sleep;
 
 
-public class LinkedInSearchTest {
-    WebDriver browser;
-    LinkedInLoginPage linkedInLoginPage;
+public class LinkedInSearchTest extends BaseTest{
 
     String userEmail = "mrentertheusername@gmail.com";
-    String userPass = "Aaa14401440";
+    String userPass = "Aa14401440";
     String searchTerm = "HR";
 
 
@@ -26,47 +19,37 @@ public class LinkedInSearchTest {
     public void basicSearchTest() {
         Assert.assertTrue(linkedInLoginPage.isLoaded(), "LoginPage is not loaded");
         //LogIn
-        LinkedInHomePage linkedInHomePage = linkedInLoginPage.loginReturnHomePage(userEmail, userPass);
-
+        LinkedInHomePage linkedInHomePage = linkedInLoginPage.login(userEmail, userPass);
+        try {
+            sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //Validation
         Assert.assertTrue(linkedInHomePage.isLoaded(), "Home page is not loaded");
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         LinkedInSearchPage linkedInSearchPage = linkedInHomePage.search("hr");
         Assert.assertTrue(linkedInSearchPage.isLoaded(), "SearchPage is not loaded");
-        Assert.assertEquals(linkedInSearchPage.getSearchResultsCount(), 10, "Search results count is wrong");
+        //Assert.assertEquals(linkedInSearchPage.getSearchResultsCount(), 10, "Search results count is wrong");
 
         try {
-            sleep(1000);
+            sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //Scroll
-        JavascriptExecutor jse;
-        jse = (JavascriptExecutor)browser;
-        jse.executeScript("window.scrollBy(0,300)","");
 
-        try {
-            sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+
+        //Assert.assertTrue(linkedInSearchPage.allSearchResultsContainSearchterm(searchTerm),"Not all results contain required search term");
+        List<String> searchResults = linkedInSearchPage.getSearchResultsList();
+        for (String searchResult: searchResults){
+            Assert.assertTrue(searchResult.toLowerCase().contains(searchTerm), "searchterm " +searchTerm+" not found in \n" +searchResult);
         }
-        //Scroll
-        jse.executeScript("window.scrollBy(0,1000)","");
-
-        Assert.assertTrue(linkedInSearchPage.allSearchResultsContainSearchterm(searchTerm),"Not all results contain required search term");
     }
 
 
-    @BeforeMethod
-    public void beforeMethod(){
-        browser = new ChromeDriver();
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\yurii.burlaka.ext\\IdeaProjects\\qaauto-27.07.2018\\chromedriver.exe");
-        browser.manage().window().maximize();
-        browser.get("https://www.linkedin.com/");
-        linkedInLoginPage = new LinkedInLoginPage(browser);
-    }
 
-    @AfterMethod
-    public void afterMethod(){
-        //browser.close();
-    }
 }

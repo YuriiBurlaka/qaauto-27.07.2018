@@ -4,7 +4,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import static java.lang.Thread.sleep;
 
 /**
  * Page object class for LinkedInLoginPage
@@ -23,6 +22,11 @@ public class LinkedInLoginPage extends BasePage{
     @FindBy(xpath = "//a[contains(@class, 'link-forgot')]")
     private WebElement forgotPasswordLink;
 
+    @FindBy(xpath = "//*[@id=\"nav-settings__dropdown-trigger\"]/div/span[1]")
+    private WebElement profileMenu;
+
+    @FindBy(xpath = "//button[@class='form__submit']")
+    private WebElement confirmButton;
 
     /**
      * Constructor of LinkedInLoginPage class.
@@ -33,40 +37,32 @@ public class LinkedInLoginPage extends BasePage{
         PageFactory.initElements(browser, this);
     }
 
-
-    public LinkedInLoginSubmitPage loginReturnSubmitPage (String username, String userpass){
+    /**
+     * This method enters credentials and click 'logIn' button.
+     * @param username - String with user email.
+     * @param userpass - String with user password.
+     * @<T> - generic type to return corresponding pageObject
+     * @return - either LinkedInHomePage or LinkedInLoginSubmitPage or LinkedInLoginPage
+     */
+    public <T> T login (String username, String userpass){
         loginField.sendKeys(username);
         passwordField.sendKeys(userpass);
         signInButton.click();
-        return new LinkedInLoginSubmitPage(browser);
-    }
-
-    public LinkedInHomePage loginReturnHomePage (String username, String userpass){
-        loginField.sendKeys(username);
-        passwordField.sendKeys(userpass);
-        signInButton.click();
-        //Wait
-        try {
-            sleep (3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (getCurrentUrl().contains("/feed")) {
+            return (T) new LinkedInHomePage(browser);
         }
-        return new LinkedInHomePage(browser);
-    }
-
-    public LinkedInLoginPage loginReturnLoginPage (String username, String userpass){
-        loginField.sendKeys(username);
-        passwordField.sendKeys(userpass);
-        signInButton.click();
-        //Wait
-        try {
-            sleep (3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (getCurrentUrl().contains("/uas/login")) {
+            return (T) new LinkedInLoginSubmitPage(browser);
         }
-        return new LinkedInLoginPage(browser);
+        else{
+            //return (T) this;
+            return (T) new LinkedInLoginPage(browser);
+        }
     }
 
+    /**
+     * This method checks that required page was loaded
+     */
     public boolean isLoaded() {
         return
                 getCurrentPageTitle().contains("LinkedIn");
@@ -74,12 +70,7 @@ public class LinkedInLoginPage extends BasePage{
 
     public LinkedInRequestPasswordResetPage clickOnForgotPasswordLink(){
         forgotPasswordLink.click();
-        //Wait
-        try {
-            sleep (3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        waitUntilElementIsVisible(confirmButton, 10);
         return new LinkedInRequestPasswordResetPage(browser);
     }
 }
